@@ -1085,12 +1085,26 @@ $('#btnSave').onclick = () => {
 };
 
 // ===== Tabs =====
-$$('.tab').forEach(t => t.onclick = () => {
+function activateTab(t) {
   $$('.tab').forEach(x => x.classList.remove('active'));
+  $$('.tab-icon').forEach(x => x.classList.remove('active'));
   $$('.view').forEach(x => x.classList.remove('active'));
   t.classList.add('active');
   $('#view-' + t.dataset.tab).classList.add('active');
   if (t.dataset.tab === 'compare') renderCompareTable();
+}
+$$('.tab').forEach(t => t.onclick = () => activateTab(t));
+$$('.tab-icon').forEach(t => t.onclick = () => {
+  const isActive = t.classList.contains('active');
+  if (isActive) {
+    t.classList.remove('active');
+    $$('.view').forEach(x => x.classList.remove('active'));
+    const firstTab = $('.tab');
+    firstTab.classList.add('active');
+    $('#view-' + firstTab.dataset.tab).classList.add('active');
+  } else {
+    activateTab(t);
+  }
 });
 
 // ===== Tema =====

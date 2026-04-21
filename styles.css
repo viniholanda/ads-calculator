@@ -64,7 +64,34 @@ html, body {
 .topbar h1 { margin: 0; font-size: 18px; font-weight: 700; font-family: 'Clash Display', 'Satoshi', sans-serif; letter-spacing: -0.3px; }
 .subtitle { margin: 2px 0 0 0; font-size: 12px; opacity: 0.85; font-family: 'Satoshi', sans-serif; }
 
-.topbar-actions { display: flex; gap: 8px; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+.tab-icon {
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 8px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+.tab-icon:hover { background: rgba(255,255,255,.28); }
+.tab-icon.active {
+  background: rgba(255,255,255,.35);
+  border-color: rgba(255,255,255,.6);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.2);
+}
+[data-theme="light"] .tab-icon {
+  background: rgba(52,131,250,.1);
+  border-color: rgba(52,131,250,.25);
+}
+[data-theme="light"] .tab-icon:hover { background: rgba(52,131,250,.2); }
+[data-theme="light"] .tab-icon.active {
+  background: rgba(52,131,250,.22);
+  border-color: var(--accent);
+}
 
 .btn {
   border: none;
@@ -174,12 +201,15 @@ html, body {
   border-top: 1px solid var(--border);
 }
 .input-group-label {
-  margin: 0 0 8px 0;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
+  margin: 0 0 10px 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent);
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
 }
 
 main .btn.ghost, main .btn.primary {
