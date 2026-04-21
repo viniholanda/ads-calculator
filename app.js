@@ -600,7 +600,7 @@ function renderFinanceChart(r) {
   });
 }
 
-// ===== Margem de Segurança (Lucro vs ACoS) =====
+// ===== Margem de Segurança (Lucro vs Tacos) =====
 function renderSafetyChart(r) {
   const canvas = $('#chartSafety');
   const emptyEl = $('#chartSafetyEmpty');
@@ -609,30 +609,30 @@ function renderSafetyChart(r) {
   if (chartSafety) { chartSafety.destroy(); chartSafety = null; }
 
   const margin = r.margin || 0;
-  const revenue = r.revenue || 0;
-  const currentAcos = r.acos || 0;
+  const totalRevenue = r.totalRevenue || 0;
+  const currentTacos = r.tacos || 0;
 
-  if (margin <= 0 || revenue <= 0) {
+  if (margin <= 0 || totalRevenue <= 0) {
     if (emptyEl) emptyEl.style.display = 'flex';
     if (headerEl) headerEl.innerHTML = '';
     return;
   }
   if (emptyEl) emptyEl.style.display = 'none';
 
-  const xMax = Math.max(margin * 2, currentAcos * 1.25, margin + 15);
+  const xMax = Math.max(margin * 2, currentTacos * 1.25, margin + 15);
   const pts = 60;
   const step = xMax / pts;
   const data = [];
   for (let i = 0; i <= pts; i++) {
     const x = i * step;
-    data.push({ x, y: revenue * (margin - x) / 100 });
+    data.push({ x, y: totalRevenue * (margin - x) / 100 });
   }
 
-  const safetyGap = margin - currentAcos;
+  const safetyGap = margin - currentTacos;
   const gapStatus = safetyGap > 0 ? 'good' : (safetyGap < 0 ? 'bad' : 'warn');
   const gapIcon = safetyGap > 0 ? '🛡️' : (safetyGap < 0 ? '⚠️' : '⚖️');
   const gapLabel = safetyGap > 0
-    ? `<b>${fmtNum(safetyGap, 1)} p.p.</b> de folga — seu ACoS pode subir até ${fmtNum(margin, 1)}% antes de entrar em prejuízo.`
+    ? `<b>${fmtNum(safetyGap, 1)} p.p.</b> de folga — seu TACoS pode subir até ${fmtNum(margin, 1)}% antes de entrar em prejuízo.`
     : safetyGap < 0
       ? `<b>${fmtNum(Math.abs(safetyGap), 1)} p.p.</b> acima do equilíbrio — cada venda gera prejuízo.`
       : `No ponto de equilíbrio.`;
@@ -644,7 +644,7 @@ function renderSafetyChart(r) {
         <span class="safety-gap">${gapLabel}</span>
       </div>
       <div class="safety-marks">
-        <span class="mark current">● ACoS atual: <b>${fmtNum(currentAcos, 1)}%</b></span>
+        <span class="mark current">● TACoS atual: <b>${fmtNum(currentTacos, 1)}%</b></span>
         <span class="mark be">● Equilíbrio (= margem): <b>${fmtNum(margin, 1)}%</b></span>
       </div>
     `;
@@ -660,8 +660,8 @@ function renderSafetyChart(r) {
       const { ctx, chartArea, scales } = chart;
       const xScale = scales.x;
       const marks = [
-        { value: currentAcos, color: '#3483fa', label: 'ACoS atual', align: 'left' },
-        { value: margin,      color: '#ff9f43', label: 'Equilíbrio', align: 'right' },
+        { value: currentTacos, color: '#3483fa', label: 'TACoS atual', align: 'left' },
+        { value: margin,       color: '#ff9f43', label: 'Equilíbrio',  align: 'right' },
       ];
       marks.forEach(m => {
         if (m.value < 0 || m.value > xMax) return;
@@ -712,7 +712,7 @@ function renderSafetyChart(r) {
           type: 'linear',
           min: 0,
           max: xMax,
-          title: { display: true, text: 'ACoS (%)', color: mutedColor, font: { family: 'Satoshi, Inter, sans-serif', size: 11, weight: '600' } },
+          title: { display: true, text: 'TACoS (%)', color: mutedColor, font: { family: 'Satoshi, Inter, sans-serif', size: 11, weight: '600' } },
           ticks: { color: mutedColor, callback: v => fmtNum(v, 0) + '%' },
           grid: { color: borderColor }
         },
@@ -729,7 +729,7 @@ function renderSafetyChart(r) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            title: (items) => 'ACoS ' + fmtNum(items[0].parsed.x, 1) + '%',
+            title: (items) => 'TACoS ' + fmtNum(items[0].parsed.x, 1) + '%',
             label: (item) => {
               const y = item.parsed.y;
               const status = y >= 0 ? '✔ Lucro' : '✖ Prejuízo';
