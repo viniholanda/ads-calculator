@@ -327,6 +327,7 @@ function hasData(r) {
 
 // ===== Render principal =====
 let chartFin = null;
+let chartSafety = null;
 let chartRadar = null;
 let chartCompareRadar = null;
 let chartEvolTimeline = null;
@@ -391,6 +392,7 @@ function render() {
 
   renderDelta(r);
   renderFinanceChart(r);
+  renderSafetyChart(r);
   renderFunnel(r);
   renderDiagnostics(r);
   renderActionPlan(r);
@@ -595,6 +597,149 @@ function renderFinanceChart(r) {
         c.restore();
       }
     }]
+  });
+}
+
+// ===== Margem de Segurança (Lucro vs ACoS) =====
+function renderSafetyChart(r) {
+  const canvas = $('#chartSafety');
+  const emptyEl = $('#chartSafetyEmpty');
+  const headerEl = $('#safetyHeader');
+  if (!canvas) return;
+  if (chartSafety) { chartSafety.destroy(); chartSafety = null; }
+
+  const margin = r.margin || 0;
+  const revenue = r.revenue || 0;
+  const currentAcos = r.acos || 0;
+
+  if (margin <= 0 || revenue <= 0) {
+    if (emptyEl) emptyEl.style.display = 'flex';
+    if (headerEl) headerEl.innerHTML = '';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  const xMax = Math.max(margin * 2, currentAcos * 1.25, margin + 15);
+  const pts = 60;
+  const step = xMax / pts;
+  const data = [];
+  for (let i = 0; i <= pts; i++) {
+    const x = i * step;
+    data.push({ x, y: revenue * (margin - x) / 100 });
+  }
+
+  const safetyGap = margin - currentAcos;
+  const gapStatus = safetyGap > 0 ? 'good' : (safetyGap < 0 ? 'bad' : 'warn');
+  const gapIcon = safetyGap > 0 ? '🛡️' : (safetyGap < 0 ? '⚠️' : '⚖️');
+  const gapLabel = safetyGap > 0
+    ? `<b>${fmtNum(safetyGap, 1)} p.p.</b> de folga — seu ACoS pode subir até ${fmtNum(margin, 1)}% antes de entrar em prejuízo.`
+    : safetyGap < 0
+      ? `<b>${fmtNum(Math.abs(safetyGap), 1)} p.p.</b> acima do equilíbrio — cada venda gera prejuízo.`
+      : `No ponto de equilíbrio.`;
+
+  if (headerEl) {
+    headerEl.innerHTML = `
+      <div class="safety-kpi">
+        <span class="safety-chip ${gapStatus}">${gapIcon} Margem de segurança</span>
+        <span class="safety-gap">${gapLabel}</span>
+      </div>
+      <div class="safety-marks">
+        <span class="mark current">● ACoS atual: <b>${fmtNum(currentAcos, 1)}%</b></span>
+        <span class="mark be">● Equilíbrio (= margem): <b>${fmtNum(margin, 1)}%</b></span>
+      </div>
+    `;
+  }
+
+  const textColor = getCssVar('--text');
+  const mutedColor = getCssVar('--muted');
+  const borderColor = getCssVar('--border');
+
+  const verticalMarkers = {
+    id: 'verticalMarkers',
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      const xScale = scales.x;
+      const marks = [
+        { value: currentAcos, color: '#3483fa', label: 'ACoS atual', align: 'left' },
+        { value: margin,      color: '#ff9f43', label: 'Equilíbrio', align: 'right' },
+      ];
+      marks.forEach(m => {
+        if (m.value < 0 || m.value > xMax) return;
+        const px = xScale.getPixelForValue(m.value);
+        ctx.save();
+        ctx.strokeStyle = m.color;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 4]);
+        ctx.beginPath();
+        ctx.moveTo(px, chartArea.top);
+        ctx.lineTo(px, chartArea.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = m.color;
+        ctx.font = '600 11px Satoshi, Inter, sans-serif';
+        ctx.textAlign = m.align === 'right' ? 'right' : 'left';
+        const tx = m.align === 'right' ? px - 6 : px + 6;
+        ctx.fillText(m.label, tx, chartArea.top + 14);
+        ctx.restore();
+      });
+    }
+  };
+
+  chartSafety = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: 'Lucro líquido',
+        data,
+        parsing: false,
+        borderColor: textColor,
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0,
+        fill: {
+          target: { value: 0 },
+          above: 'rgba(39, 196, 122, 0.30)',
+          below: 'rgba(255, 94, 94, 0.30)'
+        }
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: xMax,
+          title: { display: true, text: 'ACoS (%)', color: mutedColor, font: { family: 'Satoshi, Inter, sans-serif', size: 11, weight: '600' } },
+          ticks: { color: mutedColor, callback: v => fmtNum(v, 0) + '%' },
+          grid: { color: borderColor }
+        },
+        y: {
+          title: { display: true, text: 'Lucro líquido (R$)', color: mutedColor, font: { family: 'Satoshi, Inter, sans-serif', size: 11, weight: '600' } },
+          ticks: { color: mutedColor, callback: v => fmtBRL(v) },
+          grid: {
+            color: (ctx) => ctx.tick.value === 0 ? getCssVar('--text') : borderColor,
+            lineWidth: (ctx) => ctx.tick.value === 0 ? 1.5 : 1
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => 'ACoS ' + fmtNum(items[0].parsed.x, 1) + '%',
+            label: (item) => {
+              const y = item.parsed.y;
+              const status = y >= 0 ? '✔ Lucro' : '✖ Prejuízo';
+              return ` ${status}: ${fmtBRL(y)}`;
+            }
+          }
+        }
+      }
+    },
+    plugins: [verticalMarkers]
   });
 }
 
@@ -1415,6 +1560,63 @@ $('#roasTargetVal').addEventListener('input', (e) => {
 renderRoasTarget();
 
 // ===== Meta =====
+// ===== Simulador de Escala =====
+$('#btnScale').onclick = () => {
+  const units = parseFloat($('#scaleUnits').value) || 0;
+  const el = $('#scaleResults');
+
+  if (units <= 0) {
+    el.innerHTML = '<b>Informe um número de unidades/dia maior que zero.</b>';
+    el.classList.add('show');
+    return;
+  }
+
+  const ctr = parseFloat($('#simCtr').value) || 0;
+  const cvr = parseFloat($('#simCvr').value) || 0;
+  const cpc = parseFloat($('#simCpc').value) || 0;
+  const ticket = parseFloat($('#simTicket').value) || 0;
+  const margin = parseFloat($('#simMargin').value) || 0;
+  const impAtual = parseFloat($('#simImp').value) || 0;
+
+  if (ctr <= 0 || cvr <= 0 || cpc <= 0 || ticket <= 0) {
+    el.innerHTML = '<b>Ajuste CTR, CVR, CPC e ticket nos sliders antes de escalar.</b>';
+    el.classList.add('show');
+    return;
+  }
+
+  const cliques = units / (cvr / 100);
+  const impressoes = cliques / (ctr / 100);
+  const invest = cliques * cpc;
+  const receita = units * ticket;
+  const lucro = receita * (margin / 100) - invest;
+  const roas = invest > 0 ? receita / invest : 0;
+  const cpa = units > 0 ? invest / units : 0;
+
+  const salesAtuais = impAtual * (ctr / 100) * (cvr / 100);
+  const mult = salesAtuais > 0 ? units / salesAtuais : 0;
+  const multTxt = mult > 0
+    ? `<div class="scale-mult">Isso é <b>${fmtNum(mult, 2)}x</b> o volume atual (${fmtNum(salesAtuais, 0)} vendas/dia com ${fmtNum(impAtual, 0)} impressões).</div>`
+    : '';
+
+  const lucroClass = lucro >= 0 ? 'good' : 'bad';
+  const lucroIcon = lucro >= 0 ? '💰' : '⚠️';
+
+  el.innerHTML = `
+    <div class="scale-header">🎯 Para vender <b>${fmtNum(units, 0)}</b> unidades/dia mantendo as taxas atuais:</div>
+    <div class="scale-kpis">
+      <div class="scale-kpi"><span>Impressões/dia</span><strong>${fmtNum(impressoes, 0)}</strong></div>
+      <div class="scale-kpi"><span>Cliques/dia</span><strong>${fmtNum(cliques, 0)}</strong></div>
+      <div class="scale-kpi"><span>Investimento/dia</span><strong>${fmtBRL(invest)}</strong></div>
+      <div class="scale-kpi"><span>Receita/dia</span><strong>${fmtBRL(receita)}</strong></div>
+      <div class="scale-kpi"><span>CPA</span><strong>${fmtBRL(cpa)}</strong></div>
+      <div class="scale-kpi"><span>ROAS</span><strong>${fmtNum(roas, 2)}x</strong></div>
+      <div class="scale-kpi ${lucroClass}"><span>Lucro líquido/dia</span><strong>${lucroIcon} ${fmtBRL(lucro)}</strong></div>
+    </div>
+    ${multTxt}
+  `;
+  el.classList.add('show');
+};
+
 $('#btnGoal').onclick = () => {
   const gRev = parseFloat($('#goalRevenue').value) || 0;
   const gProfit = parseFloat($('#goalProfit').value) || 0;

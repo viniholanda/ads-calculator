@@ -175,8 +175,8 @@
           <div class="kpi-formula">Lucro bruto − Investimento</div>
         </div>
         <div class="kpi" id="kpi-breakEven">
-          <div class="kpi-label">ROAS de equilíbrio
-            <span class="tip" data-tip="ROAS mínimo necessário para não ter prejuízo. = 1 ÷ margem.">?</span>
+          <div class="kpi-label">ROAS de equilíbrio <small class="kpi-dynamic">↻ muda c/ margem</small>
+            <span class="tip" data-tip="ROAS mínimo para não ter prejuízo. Valor dinâmico: cresce se sua margem cai e diminui se sua margem sobe. Fórmula: 1 ÷ margem.">?</span>
           </div>
           <div class="kpi-value">—</div>
           <div class="kpi-badge">—</div>
@@ -242,6 +242,19 @@
       <p class="hint">Como a sua receita bruta se distribui entre custos, ads e lucro</p>
       <div class="chart-container" style="max-height: 280px; position: relative;">
         <canvas id="chartFinance"></canvas>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Margem de Segurança — Lucro vs ACoS</h2>
+      <p class="hint">Como o lucro líquido evolui conforme o ACoS sobe. Verde = lucro, vermelho = prejuízo. A linha azul marca seu ACoS atual; a laranja, o equilíbrio (= sua margem). A distância entre elas é sua <b>margem de segurança</b>.</p>
+      <div id="safetyHeader" class="safety-header"></div>
+      <div class="chart-container" style="max-height: 300px; position: relative;">
+        <canvas id="chartSafety"></canvas>
+        <div id="chartSafetyEmpty" class="empty" style="display:flex; position:absolute; inset:0; flex-direction:column; justify-content:center; align-items:center; background:var(--card); z-index:10; border-radius:8px;">
+          <span style="font-size:24px; margin-bottom:8px;">🛡️</span>
+          <span><b>Aguardando dados</b><br/>Preencha margem, investimento e receita.</span>
+        </div>
       </div>
     </div>
 
@@ -443,6 +456,19 @@
           <div class="roas-verdict" id="roasVerdict"></div>
         </div>
       </div>
+    </div>
+
+    <div class="card span-12">
+      <h3>📈 Simulador de Escala</h3>
+      <p class="hint">Quantas unidades/dia você quer vender? Calculamos impressões, cliques e investimento mantendo as taxas atuais dos sliders.</p>
+      <div class="scale-grid">
+        <div class="field">
+          <label>Unidades/dia desejadas</label>
+          <input type="number" id="scaleUnits" placeholder="ex: 50" min="1" step="1" />
+        </div>
+        <button class="btn primary" id="btnScale">Calcular</button>
+      </div>
+      <div id="scaleResults" class="scale-results"></div>
     </div>
 
     <div class="card span-12">
