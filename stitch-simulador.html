@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#383527",
+                        "surface-bright": "#3c392c",
+                        "outline-variant": "#4b4731",
+                        "inverse-primary": "#6a5f00",
+                        "surface-container-lowest": "#100e05",
+                        "on-tertiary-fixed-variant": "#004f50",
+                        "on-primary": "#373100",
+                        "surface-variant": "#383527",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#001a41",
+                        "on-background": "#e8e2cf",
+                        "surface-container-low": "#1e1c10",
+                        "inverse-surface": "#e8e2cf",
+                        "on-tertiary-fixed": "#002020",
+                        "secondary-container": "#006be1",
+                        "surface-container-high": "#2d2a1d",
+                        "on-surface-variant": "#cdc7aa",
+                        "on-secondary-fixed-variant": "#004493",
+                        "tertiary-fixed-dim": "#00dcdd",
+                        "on-tertiary": "#003737",
+                        "on-primary-fixed": "#201c00",
+                        "secondary-fixed": "#d8e2ff",
+                        "primary-fixed-dim": "#dec800",
+                        "outline": "#979177",
+                        "secondary": "#adc6ff",
+                        "background": "#0B111E",
+                        "tertiary": "#ffffff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#00fbfc",
+                        "on-secondary": "#002e68",
+                        "surface": "#1A2233",
+                        "surface-container": "#222014",
+                        "surface-dim": "#151408",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#dec800",
+                        "on-surface": "#e8e2cf",
+                        "inverse-on-surface": "#333123",
+                        "primary-fixed": "#fde400",
+                        "tertiary-container": "#00fbfc",
+                        "primary-container": "#fde400",
+                        "on-secondary-container": "#f2f4ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "primary": "#FFE600",
+                        "on-primary-container": "#716500",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#007071"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "sm": "12px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "kpi-value": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "kpi-value": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #2D3748;
+            border-radius: 2px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #FFE600;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 230, 0, 0.4);
+        }
+        .sunken-input {
+            background-color: #0B111E;
+            border: 1px solid #2D3748;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .card-border {
+            border: 1px solid #2D3748;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-900 dark:to-slate-950 shadow-lg docked full-width top-0 border-b border-blue-800/50 flex justify-between items-center px-6 py-3 w-full sticky z-50">
+<div class="flex items-center gap-3">
+<div class="bg-yellow-400 w-10 h-10 flex items-center justify-center rounded-lg shadow-inner">
+<span class="text-blue-900 font-black text-xl leading-none">ML</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white font-bold text-lg leading-none antialiased">Calculadora ML Ads</h1>
+<span class="text-blue-100/60 text-xs mt-1">Analytics · Diagnóstico · Simulador</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-blue-100/70 hover:bg-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-sm">link</span>
+                Compartilhar
+            </button>
+<button class="text-blue-100/70 hover:bg-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm transition-colors cursor-pointer active:opacity-80">
+                Exemplo
+            </button>
+<button class="text-blue-100/70 hover:bg-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm transition-colors cursor-pointer active:opacity-80">
+                Limpar
+            </button>
+<div class="h-6 w-[1px] bg-blue-400/20 mx-2"></div>
+<button class="material-symbols-outlined text-blue-100/70 hover:bg-white/10 p-2 rounded-full cursor-pointer transition-colors">dark_mode</button>
+<button class="material-symbols-outlined text-blue-100/70 hover:bg-white/10 p-2 rounded-full cursor-pointer transition-colors">settings</button>
+<button class="material-symbols-outlined text-blue-100/70 hover:bg-white/10 p-2 rounded-full cursor-pointer transition-colors">help</button>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-gutter py-md">
+<!-- Client Bar -->
+<section class="flex items-center gap-3 overflow-x-auto pb-4 mb-6 no-scrollbar">
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-primary text-background font-bold text-sm transition-all active:scale-95">
+                Loja Alpha
+            </button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-low border border-outline-variant text-on-surface-variant hover:text-white hover:border-outline text-sm transition-all active:scale-95">
+                Vendedor Beta
+            </button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-surface-container-low border border-outline-variant text-on-surface-variant hover:text-white hover:border-outline text-sm transition-all active:scale-95">
+                Loja Gama
+            </button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full border border-dashed border-outline-variant text-on-surface-variant hover:bg-white/5 text-sm transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                Novo Cliente
+            </button>
+</section>
+<!-- Tabs -->
+<nav class="flex border-b border-outline-variant/30 mb-lg">
+<a class="px-gutter py-3 text-on-surface-variant font-medium hover:text-white border-b-2 border-transparent transition-all" href="#">Calculadora</a>
+<a class="px-gutter py-3 text-on-surface-variant font-medium hover:text-white border-b-2 border-transparent transition-all" href="#">Diagnóstico</a>
+<a class="px-gutter py-3 text-primary font-bold border-b-2 border-primary transition-all" href="#">Simulador</a>
+<a class="px-gutter py-3 text-on-surface-variant font-medium hover:text-white border-b-2 border-transparent transition-all" href="#">Comparar Cenários</a>
+</nav>
+<div class="grid grid-cols-12 gap-md items-start">
+<!-- COLUMN 1: Inputs -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+<div class="bg-surface card-border rounded-xl p-md">
+<div class="mb-lg">
+<h2 class="text-headline-md font-headline-md text-white">Simule Cenários</h2>
+<p class="text-on-surface-variant text-sm mt-1">Arraste os sliders para projetar resultados</p>
+</div>
+<div class="space-y-8">
+<!-- Slider Control: Impressões -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-label-caps font-label-caps text-on-surface-variant uppercase">IMPRESSÕES</label>
+<span class="text-white font-bold text-sm px-3 py-1 sunken-input rounded-lg">1.250.000</span>
+</div>
+<input class="w-full" max="5000000" min="0" type="range" value="1250000"/>
+</div>
+<!-- Slider Control: CTR -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-label-caps font-label-caps text-on-surface-variant uppercase">CTR (%)</label>
+<span class="text-white font-bold text-sm px-3 py-1 sunken-input rounded-lg">1,20%</span>
+</div>
+<input class="w-full" max="10" min="0" step="0.1" type="range" value="1.2"/>
+</div>
+<!-- Slider Control: CVR -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-label-caps font-label-caps text-on-surface-variant uppercase">CVR (%)</label>
+<span class="text-white font-bold text-sm px-3 py-1 sunken-input rounded-lg">2,50%</span>
+</div>
+<input class="w-full" max="20" min="0" step="0.1" type="range" value="2.5"/>
+</div>
+<!-- Slider Control: Ticket Médio -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-label-caps font-label-caps text-on-surface-variant uppercase">TICKET MÉDIO (R$)</label>
+<span class="text-white font-bold text-sm px-3 py-1 sunken-input rounded-lg">R$ 185,00</span>
+</div>
+<input class="w-full" max="2000" min="0" type="range" value="185"/>
+</div>
+<!-- Slider Control: Gasto Ads -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-label-caps font-label-caps text-on-surface-variant uppercase">GASTO ADS (R$)</label>
+<span class="text-white font-bold text-sm px-3 py-1 sunken-input rounded-lg">R$ 15.000</span>
+</div>
+<input class="w-full" max="100000" min="0" type="range" value="15000"/>
+</div>
+</div>
+<div class="flex gap-3 mt-lg pt-lg border-t border-outline-variant/20">
+<button class="flex-1 px-4 py-2.5 rounded-full border border-primary text-primary font-bold text-sm hover:bg-primary/5 transition-colors active:scale-95">
+                            Salvar Cenário
+                        </button>
+<button class="flex-1 px-4 py-2.5 rounded-full text-on-surface-variant font-bold text-sm hover:text-white transition-colors active:scale-95">
+                            Resetar
+                        </button>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: Outputs -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-md">
+<!-- Results Card -->
+<div class="bg-surface card-border rounded-xl p-md">
+<div class="flex justify-between items-center mb-lg">
+<h2 class="text-headline-md font-headline-md text-white">Projeção de Resultados</h2>
+<div class="flex gap-8 px-4 py-2 sunken-input rounded-xl">
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase">Atual</span>
+<div class="w-2 h-0.5 bg-on-surface-variant/40 mt-1"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-primary font-bold tracking-widest uppercase">Projetado</span>
+<div class="w-2 h-0.5 bg-primary mt-1"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-y-gutter gap-x-md">
+<!-- KPI: Cliques -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">CLIQUES</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-white">15.000</span>
+<span class="text-xs text-on-surface-variant/50 line-through">12.200</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                22.9%
+                            </div>
+</div>
+<!-- KPI: Conversões -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">CONVERSÕES</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-white">375</span>
+<span class="text-xs text-on-surface-variant/50 line-through">280</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                33.9%
+                            </div>
+</div>
+<!-- KPI: Receita -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">RECEITA</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-primary">R$ 69.3k</span>
+<span class="text-xs text-on-surface-variant/50 line-through">R$ 51.8k</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                33.7%
+                            </div>
+</div>
+<!-- KPI: Lucro -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">LUCRO ESTIMADO</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-emerald-400">R$ 18.2k</span>
+<span class="text-xs text-on-surface-variant/50 line-through">R$ 12.1k</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                50.4%
+                            </div>
+</div>
+<!-- KPI: ROAS -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">ROAS</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-white">4.62</span>
+<span class="text-xs text-on-surface-variant/50 line-through">4.12</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                12.1%
+                            </div>
+</div>
+<!-- KPI: ACoS -->
+<div class="space-y-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant">ACOS</label>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-kpi-value text-white">21,6%</span>
+<span class="text-xs text-on-surface-variant/50 line-through">24,3%</span>
+</div>
+<div class="flex items-center text-emerald-400 text-xs font-bold gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+                                2.7pp
+                            </div>
+</div>
+</div>
+</div>
+<!-- Projection Chart Card -->
+<div class="bg-surface card-border rounded-xl p-md flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<h3 class="text-white font-bold">Gráfico de Projeção</h3>
+<span class="text-xs text-on-surface-variant">X: Gasto (R$) | Y: Receita (R$)</span>
+</div>
+<div class="relative h-64 w-full sunken-input rounded-lg p-6 overflow-hidden">
+<!-- Simple SVG Chart Mockup -->
+<svg class="w-full h-full" viewbox="0 0 800 240">
+<!-- Grid lines -->
+<line stroke="#2D3748" stroke-width="1" x1="0" x2="800" y1="40" y2="40"></line>
+<line stroke="#2D3748" stroke-width="1" x1="0" x2="800" y1="90" y2="90"></line>
+<line stroke="#2D3748" stroke-width="1" x1="0" x2="800" y1="140" y2="140"></line>
+<line stroke="#2D3748" stroke-width="1" x1="0" x2="800" y1="190" y2="190"></line>
+<!-- Actual Line (Dashed) -->
+<path d="M 0,220 L 100,200 L 200,185 L 300,160 L 400,150 L 500,135 L 600,120 L 700,115 L 800,105" fill="none" stroke="#64748b" stroke-dasharray="8,4" stroke-width="2"></path>
+<!-- Projected Line (Solid Yellow) -->
+<path d="M 0,220 L 100,190 L 200,165 L 300,130 L 400,105 L 500,80 L 600,55 L 700,45 L 800,30" fill="none" stroke="#FFE600" stroke-width="3"></path>
+<!-- Current Marker -->
+<circle cx="300" cy="130" fill="#FFE600" r="6"></circle>
+<circle cx="300" cy="130" fill="#FFE600" fill-opacity="0.2" r="12"></circle>
+</svg>
+<!-- Labels for axes -->
+<div class="absolute bottom-2 right-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Aumento de Gasto</div>
+<div class="absolute top-4 left-2 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest origin-left -rotate-90 translate-y-12">Performance</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-slate-950 flex justify-around items-center px-4 py-2 z-50 border-t border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-yellow-200 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="text-[10px] font-medium">Calculadora</span>
+</a>
+<a class="flex flex-col items-center justify-center text-yellow-400 bg-yellow-400/10 rounded-xl p-2 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">calculate</span>
+<span class="text-[10px] font-medium">Simulador</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-yellow-200 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-medium">Histórico</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-yellow-200 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</body></html>

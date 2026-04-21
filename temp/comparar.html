@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "charcoal-gray": "#1a1c1e",
+                        "deep-slate": "#111315",
+                        "muted-amber": "#d9a441",
+                        "mint-green": "#98D8C1",
+                        "rose-pink": "#E29595",
+                        "surface-container": "#1e2124",
+                        "surface-container-high": "#2a2d31",
+                        "on-surface": "#e2e2e2",
+                        "on-surface-variant": "#a0a0a0",
+                        "outline-variant": "#3f4449",
+                        "primary-fixed": "#d9a441",
+                        "primary-container": "#d9a441",
+                        "on-primary-container": "#1a1c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "kpi-value": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "kpi-value": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: #111315;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #3f4449;
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #d9a441;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-deep-slate text-on-surface font-body-md min-h-screen flex flex-col">
+<header class="bg-charcoal-gray shadow-md border-b border-outline-variant flex justify-between items-center w-full px-6 py-3 fixed top-0 z-50">
+<div class="flex items-center gap-6">
+<span class="text-lg font-black text-muted-amber uppercase tracking-widest">Calculadora ML Ads</span>
+<nav class="hidden md:flex items-center gap-4">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-inter text-sm font-medium" href="#">Visão Geral</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-inter text-sm font-medium" href="#">Cenários</a>
+<a class="text-on-surface border-b-2 border-muted-amber pb-1 font-inter text-sm font-medium" href="#">Benchmarks</a>
+</nav>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-1.5 text-on-surface hover:bg-white/5 rounded-full transition-all text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">share</span> Compartilhar
+        </button>
+<button class="px-4 py-1.5 text-on-surface hover:bg-white/5 rounded-full transition-all text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span> Exemplo
+        </button>
+<button class="px-4 py-1.5 text-on-surface hover:bg-white/5 rounded-full transition-all text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span> Limpar
+        </button>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-all" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-all" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full bg-muted-amber flex items-center justify-center text-charcoal-gray font-bold text-xs overflow-hidden">
+<img alt="Avatar do Usuário" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4AL-ZvdAVdoHElqp8ke9i9iEcGaABfIDu-2TEXHGiquO6Oy7g6cMfA8W--_OWI8B6AvPSZbb0gKl9n_c9I5S0AcqMMmwOW02Zn5P-cvNPyRkf73fO8M0daxTDTPAgNpbI0PNsUdydJJjCt4-rBlmTHtHXzo6pXtcvf6aT0yB5977-cM46ZqNgKs2c8AjeTmbAVcKgL0plign9TWHXqKdsj8SzHW7irFk8zv1_ueLr21tPiHIhJYjgTAkGUoi9ekDRp_x1S93HjRg"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-[64px] overflow-hidden h-screen">
+<main class="w-[70%] flex flex-col overflow-y-auto custom-scrollbar px-gutter pb-xl">
+<section class="mt-sm mb-md overflow-x-auto whitespace-nowrap custom-scrollbar pb-2">
+<div class="flex gap-3">
+<button class="px-6 py-2 rounded-full bg-muted-amber text-charcoal-gray font-bold text-xs uppercase tracking-wider transition-all">Loja Alpha</button>
+<button class="px-6 py-2 rounded-full border border-outline-variant text-on-surface hover:bg-surface-container-high font-bold text-xs uppercase tracking-wider transition-all">Vendedor Beta</button>
+<button class="px-6 py-2 rounded-full border border-outline-variant text-on-surface hover:bg-surface-container-high font-bold text-xs uppercase tracking-wider transition-all">Loja Gama</button>
+<button class="px-6 py-2 rounded-full border-2 border-dashed border-outline-variant text-on-surface-variant hover:text-on-surface hover:border-on-surface font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span> Novo Cliente
+                </button>
+</div>
+</section>
+<section class="border-b border-outline-variant mb-lg">
+<div class="flex gap-gutter">
+<button class="py-4 text-on-surface-variant font-bold text-label-caps border-b-2 border-transparent hover:text-on-surface transition-all">Calculadora</button>
+<button class="py-4 text-on-surface-variant font-bold text-label-caps border-b-2 border-transparent hover:text-on-surface transition-all">Diagnóstico</button>
+<button class="py-4 text-on-surface-variant font-bold text-label-caps border-b-2 border-transparent hover:text-on-surface transition-all">Simulador</button>
+<button class="py-4 text-muted-amber font-bold text-label-caps border-b-4 border-muted-amber">Comparar Cenários</button>
+</div>
+</section>
+<section class="flex flex-wrap items-center gap-3 mb-lg">
+<div class="flex items-center bg-muted-amber text-charcoal-gray rounded-full px-4 py-2 gap-3 transition-all ring-2 ring-muted-amber/20 ring-offset-2 ring-offset-deep-slate">
+<span class="font-bold text-xs uppercase">Cenário Base</span>
+<span class="material-symbols-outlined text-[18px] cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="flex items-center bg-surface-container-high text-on-surface-variant rounded-full px-4 py-2 gap-3 hover:text-on-surface transition-all">
+<span class="font-bold text-xs uppercase">Cenário Otimista</span>
+<span class="material-symbols-outlined text-[18px] cursor-pointer hover:text-rose-pink" data-icon="delete">delete</span>
+</div>
+<div class="flex items-center bg-surface-container-high text-on-surface-variant rounded-full px-4 py-2 gap-3 hover:text-on-surface transition-all">
+<span class="font-bold text-xs uppercase">Cenário Agressivo</span>
+<span class="material-symbols-outlined text-[18px] cursor-pointer hover:text-rose-pink" data-icon="delete">delete</span>
+</div>
+<button class="rounded-full bg-surface-container-high text-on-surface px-6 py-2 font-bold text-xs uppercase flex items-center gap-2 hover:bg-muted-amber hover:text-charcoal-gray transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span> Novo Cenário
+            </button>
+</section>
+<div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden shadow-xl">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-muted-amber">query_stats</span>
+                    Comparativo de Métricas
+                </h2>
+<span class="text-xs text-on-surface-variant uppercase tracking-widest font-bold">Base de dados: Junho 2024</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high">
+<th class="p-md text-label-caps text-on-surface-variant uppercase">Métrica</th>
+<th class="p-md text-label-caps text-muted-amber uppercase bg-deep-slate/30 border-x border-outline-variant/30">Cenário Base</th>
+<th class="p-md text-label-caps text-muted-amber uppercase">Otimista</th>
+<th class="p-md text-label-caps text-muted-amber uppercase">Agressivo</th>
+<th class="p-md text-label-caps text-on-surface-variant uppercase text-right">Delta (%)</th>
+</tr>
+</thead>
+<tbody class="text-sm font-medium">
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">Impressões</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">1.250.000</td>
+<td class="p-md text-on-surface">1.450.000</td>
+<td class="p-md text-on-surface">2.100.000</td>
+<td class="p-md text-right text-mint-green flex items-center justify-end gap-1 font-bold">+68.0% <span class="material-symbols-outlined text-[16px]">trending_up</span></td>
+</tr>
+<tr class="bg-surface-container-high/30 hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">Cliques</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">12.500</td>
+<td class="p-md text-on-surface">15.950</td>
+<td class="p-md text-on-surface">25.200</td>
+<td class="p-md text-right text-mint-green font-bold">+101.6%</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">CTR</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">1,00%</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">1,10%</td>
+<td class="p-md text-on-surface">1,20%</td>
+<td class="p-md text-right text-mint-green font-bold">+20.0%</td>
+</tr>
+<tr class="bg-surface-container-high/30 hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">Gasto Ads</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">R$ 15.000</td>
+<td class="p-md text-on-surface">R$ 18.000</td>
+<td class="p-md text-rose-pink font-bold">R$ 35.000</td>
+<td class="p-md text-right text-rose-pink font-bold">+133.3%</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">Receita</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">R$ 75.000</td>
+<td class="p-md text-on-surface">R$ 105.000</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">R$ 180.000</td>
+<td class="p-md text-right text-mint-green font-bold">+140.0%</td>
+</tr>
+<tr class="bg-surface-container-high/30 hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">CVR</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">2,50%</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">3,10%</td>
+<td class="p-md text-on-surface">2,80%</td>
+<td class="p-md text-right text-mint-green font-bold">+12.0%</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">ROAS</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">5,00</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">5,83</td>
+<td class="p-md text-on-surface">5,14</td>
+<td class="p-md text-right text-mint-green font-bold">+2.8%</td>
+</tr>
+<tr class="bg-surface-container-high/30 hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">ACoS</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">20,0%</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">17,1%</td>
+<td class="p-md text-on-surface">19,4%</td>
+<td class="p-md text-right text-mint-green font-bold">-3.0%</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors border-b border-outline-variant/10">
+<td class="p-md text-on-surface-variant">Lucro</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">R$ 22.500</td>
+<td class="p-md text-on-surface">R$ 36.750</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">R$ 54.000</td>
+<td class="p-md text-right text-mint-green font-bold">+140.0%</td>
+</tr>
+<tr class="bg-surface-container-high/30 hover:bg-surface-container-high transition-colors">
+<td class="p-md text-on-surface-variant">Margem</td>
+<td class="p-md text-on-surface font-bold bg-deep-slate/10 border-x border-outline-variant/30">30,0%</td>
+<td class="p-md text-mint-green bg-mint-green/5 font-bold">35,0%</td>
+<td class="p-md text-on-surface">30,0%</td>
+<td class="p-md text-right text-on-surface-variant font-bold">0.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<aside class="w-[30%] bg-charcoal-gray border-l border-outline-variant flex flex-col h-full shadow-2xl">
+<div class="p-md border-b border-outline-variant bg-surface-container/50">
+<h2 class="font-headline-md text-on-surface flex items-center gap-3 text-lg">
+<span class="material-symbols-outlined text-muted-amber">bar_chart</span>
+                Resumo Visual
+            </h2>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="space-y-12">
+<div>
+<p class="mb-4 font-bold text-xs uppercase tracking-widest text-on-surface-variant">Receita Bruta</p>
+<div class="flex items-end justify-between gap-2 h-[120px] border-b border-outline-variant/30 pb-1">
+<div class="flex-1 bg-muted-amber rounded-t-sm" style="height: 40%"></div>
+<div class="flex-1 bg-on-surface-variant rounded-t-sm" style="height: 55%"></div>
+<div class="flex-1 bg-muted-amber/40 rounded-t-sm" style="height: 90%"></div>
+</div>
+</div>
+<div>
+<p class="mb-4 font-bold text-xs uppercase tracking-widest text-on-surface-variant">Lucro Líquido</p>
+<div class="flex items-end justify-between gap-2 h-[120px] border-b border-outline-variant/30 pb-1">
+<div class="flex-1 bg-muted-amber rounded-t-sm" style="height: 25%"></div>
+<div class="flex-1 bg-on-surface-variant rounded-t-sm" style="height: 40%"></div>
+<div class="flex-1 bg-muted-amber/40 rounded-t-sm" style="height: 60%"></div>
+</div>
+</div>
+<div>
+<p class="mb-4 font-bold text-xs uppercase tracking-widest text-on-surface-variant">Gasto Ads</p>
+<div class="flex items-end justify-between gap-2 h-[120px] border-b border-outline-variant/30 pb-1">
+<div class="flex-1 bg-muted-amber rounded-t-sm" style="height: 15%"></div>
+<div class="flex-1 bg-on-surface-variant rounded-t-sm" style="height: 18%"></div>
+<div class="flex-1 bg-muted-amber/40 rounded-t-sm" style="height: 35%"></div>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/30 space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-muted-amber rounded-full"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">Cenário Base</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-on-surface-variant rounded-full"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">Cenário Otimista</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-muted-amber/40 rounded-full"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">Cenário Agressivo</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

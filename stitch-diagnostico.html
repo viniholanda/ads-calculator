@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#00dcdd",
+                    "inverse-primary": "#6a5f00",
+                    "on-tertiary": "#003737",
+                    "background": "#0B111E",
+                    "surface-container-highest": "#383527",
+                    "tertiary-fixed": "#00fbfc",
+                    "surface": "#151408",
+                    "surface-container-high": "#2d2a1d",
+                    "outline": "#979177",
+                    "inverse-surface": "#e8e2cf",
+                    "surface-bright": "#3c392c",
+                    "secondary-container": "#006be1",
+                    "error": "#ffb4ab",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e8e2cf",
+                    "on-tertiary-fixed-variant": "#004f50",
+                    "on-secondary-fixed-variant": "#004493",
+                    "on-primary-container": "#716500",
+                    "primary-fixed-dim": "#dec800",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#201c00",
+                    "tertiary-container": "#00fbfc",
+                    "on-surface": "#e8e2cf",
+                    "inverse-on-surface": "#333123",
+                    "secondary-fixed": "#d8e2ff",
+                    "primary-fixed": "#fde400",
+                    "primary-container": "#fde400",
+                    "primary": "#FFE600",
+                    "outline-variant": "#4b4731",
+                    "on-tertiary-container": "#007071",
+                    "surface-container": "#222014",
+                    "on-secondary": "#002e68",
+                    "on-primary-fixed-variant": "#504700",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "surface-container-lowest": "#100e05",
+                    "on-tertiary-fixed": "#002020",
+                    "surface-variant": "#383527",
+                    "on-primary": "#373100",
+                    "on-secondary-container": "#f2f4ff",
+                    "on-surface-variant": "#cdc7aa",
+                    "surface-tint": "#dec800",
+                    "error-container": "#93000a",
+                    "secondary": "#3483FA",
+                    "on-secondary-fixed": "#001a41",
+                    "surface-container-low": "#1e1c10",
+                    "surface-dim": "#151408",
+                    "tertiary": "#ffffff",
+                    "card-surface": "#1A2233",
+                    "border-tonal": "#2D3748"
+            },
+            "borderRadius": {
+                    "DEFAULT": "8px",
+                    "lg": "12px",
+                    "xl": "16px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "xl": "64px",
+                    "sm": "12px",
+                    "gutter": "24px",
+                    "lg": "48px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "margin": "32px"
+            },
+            "fontFamily": {
+                    "manrope": ["Manrope", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #0B111E; color: #FFFFFF; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .sunken-input { background: #0B111E; border: 1px solid #2D3748; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
+        .active-glow { box-shadow: 0 0 12px rgba(255, 230, 0, 0.2); }
+    </style>
+</head>
+<body class="antialiased">
+<!-- TOP NAVIGATION BAR (Shared Component Context) -->
+<header class="w-full flex flex-col bg-gradient-to-r from-[#0B111E] to-[#1A2233] border-b-2 border-[#3483FA]/30 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+<div class="flex items-center justify-between px-8 py-4">
+<div class="flex items-center gap-4">
+<div class="bg-[#FFE600] text-[#0B111E] font-black italic p-2 rounded-lg text-xl tracking-tighter shadow-lg">ML</div>
+<div class="flex flex-col">
+<h1 class="text-white font-extrabold text-xl tracking-tight font-manrope">Calculadora ML Ads</h1>
+<span class="text-[#94A3B8] text-xs font-medium">Analytics · Diagnóstico · Simulador</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">share</span></button>
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">description</span></button>
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">backspace</span></button>
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">light_mode</span></button>
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">settings</span></button>
+<button class="p-2 text-[#94A3B8] hover:bg-[#1A2233] rounded-lg transition-all active:scale-95"><span class="material-symbols-outlined">help</span></button>
+</div>
+</div>
+<!-- TABS BAR -->
+<div class="flex px-8 gap-8 border-t border-[#2D3748]">
+<a class="py-3 text-[#94A3B8] font-medium hover:text-white transition-colors" href="#">Calculadora</a>
+<a class="py-3 text-[#FFE600] font-bold border-b-2 border-[#FFE600]" href="#">Diagnóstico</a>
+<a class="py-3 text-[#94A3B8] font-medium hover:text-white transition-colors" href="#">Simulador</a>
+<a class="py-3 text-[#94A3B8] font-medium hover:text-white transition-colors" href="#">Comparar Cenários</a>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto p-8 space-y-8">
+<!-- CLIENT SELECTOR BAR -->
+<div class="flex items-center gap-3 overflow-x-auto pb-2">
+<button class="px-5 py-2 rounded-full bg-[#FFE600] text-[#0B111E] font-bold text-sm whitespace-nowrap active-glow transition-all">Loja Alpha</button>
+<button class="px-5 py-2 rounded-full bg-[#1A2233] border border-[#2D3748] text-[#94A3B8] font-semibold text-sm whitespace-nowrap hover:bg-[#2D3748] transition-all">Vendedor Beta</button>
+<button class="px-5 py-2 rounded-full bg-[#1A2233] border border-[#2D3748] text-[#94A3B8] font-semibold text-sm whitespace-nowrap hover:bg-[#2D3748] transition-all">Loja Gama</button>
+<button class="px-5 py-2 rounded-full bg-[#1A2233] border border-dashed border-[#2D3748] text-[#94A3B8] font-semibold text-sm whitespace-nowrap hover:border-[#FFE600] hover:text-[#FFE600] transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Novo Cliente
+            </button>
+</div>
+<!-- HERO SECTION: SAUDE DA CAMPANHA -->
+<section class="flex flex-col items-center justify-center p-12 bg-[#1A2233] rounded-xl border border-[#2D3748] relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, #FFE600, transparent 70%);"></div>
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- Circular Progress Ring -->
+<svg class="absolute w-full h-full transform -rotate-90">
+<circle cx="128" cy="128" fill="transparent" r="120" stroke="#2D3748" stroke-width="12"></circle>
+<circle cx="128" cy="128" fill="transparent" r="120" stroke="url(#healthGradient)" stroke-dasharray="753.98" stroke-dashoffset="211.11" stroke-linecap="round" stroke-width="12"></circle>
+<defs>
+<lineargradient id="healthGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#FFE600;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#10b981;stop-opacity:1"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="text-center">
+<span class="block text-7xl font-extrabold text-[#FFE600] tracking-tighter">72</span>
+<span class="inline-block px-3 py-1 mt-2 text-xs font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 rounded">Bom</span>
+</div>
+</div>
+<div class="text-center mt-6 z-10">
+<h2 class="text-white font-bold text-2xl tracking-tight">Saúde da Campanha</h2>
+<p class="text-[#94A3B8] text-sm mt-1">Pontuação geral baseada em performance e otimização</p>
+</div>
+</section>
+<!-- MAIN DASHBOARD GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- COLUMN 1: DIAGNÓSTICO POR MÉTRICA -->
+<div class="bg-[#1A2233] rounded-xl border border-[#2D3748] overflow-hidden flex flex-col shadow-xl">
+<div class="p-6 border-b border-[#2D3748] flex justify-between items-center">
+<h3 class="font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FFE600]">analytics</span> Diagnóstico por Métrica
+                    </h3>
+<span class="text-[10px] uppercase font-black text-[#94A3B8] tracking-widest">Live Feed</span>
+</div>
+<div class="p-6 space-y-6">
+<!-- CTR Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">CTR</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">1.24%</span>
+<span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Ótimo</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- CPC Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">CPC</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">R$ 0.45</span>
+<span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Ótimo</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- CVR Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">CVR</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">2.1%</span>
+<span class="bg-green-500/10 text-green-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Bom</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<!-- CPA Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">CPA</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">R$ 21.40</span>
+<span class="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Fraco</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<!-- ROAS Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">ROAS</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">4.2x</span>
+<span class="bg-green-500/10 text-green-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Bom</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full rounded-full" style="width: 65%"></div>
+</div>
+</div>
+<!-- ACoS Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-[#94A3B8]">ACoS</span>
+<div class="flex items-center gap-4">
+<span class="text-white font-bold">23.8%</span>
+<span class="bg-red-500/10 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Ruim</span>
+</div>
+</div>
+<div class="w-full bg-[#0B111E] h-1.5 rounded-full overflow-hidden">
+<div class="bg-red-500 h-full rounded-full" style="width: 30%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: INSIGHTS & RADAR -->
+<div class="space-y-8">
+<!-- INSIGHTS AUTOMÁTICOS -->
+<div class="bg-[#1A2233] rounded-xl border border-[#2D3748] overflow-hidden flex flex-col shadow-xl">
+<div class="p-6 border-b border-[#2D3748]">
+<h3 class="font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-[#3483FA]">auto_awesome</span> Insights Automáticos
+                        </h3>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex items-start gap-4 p-4 bg-[#2D3748]/30 rounded-lg border border-[#2D3748] hover:translate-x-1 transition-transform duration-200">
+<div class="bg-emerald-500/10 text-emerald-500 p-2 rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-white">CTR acima do benchmark</h4>
+<p class="text-xs text-[#94A3B8] mt-1">Sua taxa de clique está 15% acima da média do setor.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 bg-[#2D3748]/30 rounded-lg border border-[#2D3748] hover:translate-x-1 transition-transform duration-200">
+<div class="bg-amber-500/10 text-amber-500 p-2 rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-white">Investimento em CPC baixo</h4>
+<p class="text-xs text-[#94A3B8] mt-1">Considere aumentar o lance em 5% para ganhar mais leilões.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 bg-[#2D3748]/30 rounded-lg border border-[#2D3748] hover:translate-x-1 transition-transform duration-200">
+<div class="bg-red-500/10 text-red-500 p-2 rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-white">ACoS em Limite Crítico</h4>
+<p class="text-xs text-[#94A3B8] mt-1">Métricas de rentabilidade estão sendo afetadas por custo de CPA alto.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- RADAR DE PERFORMANCE -->
+<div class="bg-[#1A2233] rounded-xl border border-[#2D3748] overflow-hidden flex flex-col shadow-xl">
+<div class="p-6 border-b border-[#2D3748]">
+<h3 class="font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FFE600]">radar</span> Radar de Performance
+                        </h3>
+</div>
+<div class="p-8 flex justify-center items-center bg-[#0B111E]">
+<!-- Visual Mockup for Hex Radar Chart -->
+<div class="relative w-64 h-64">
+<!-- Background Hexagons -->
+<svg class="absolute inset-0 w-full h-full text-[#2D3748] opacity-30" viewbox="0 0 100 100">
+<polygon fill="none" points="50,5 90,25 90,75 50,95 10,75 10,25" stroke="currentColor" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,20 80,35 80,65 50,80 20,65 20,35" stroke="currentColor" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,35 70,45 70,55 50,65 30,55 30,45" stroke="currentColor" stroke-width="0.5"></polygon>
+<!-- Axes Lines -->
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="50" y1="50" y2="5"></line>
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="90" y1="50" y2="25"></line>
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="90" y1="50" y2="75"></line>
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="50" y1="50" y2="95"></line>
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="10" y1="50" y2="75"></line>
+<line stroke="currentColor" stroke-width="0.5" x1="50" x2="10" y1="50" y2="25"></line>
+</svg>
+<!-- Benchmark Line (Blue Dashed) -->
+<svg class="absolute inset-0 w-full h-full text-[#3483FA]" viewbox="0 0 100 100">
+<polygon fill="none" points="50,15 85,30 85,70 50,85 15,70 15,30" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1"></polygon>
+</svg>
+<!-- Actual Performance Data (Yellow Filled) -->
+<svg class="absolute inset-0 w-full h-full text-[#FFE600]" viewbox="0 0 100 100">
+<polygon fill="currentColor" fill-opacity="0.3" points="50,10 88,27 82,68 50,90 25,60 18,35" stroke="currentColor" stroke-width="1.5"></polygon>
+</svg>
+<!-- Labels -->
+<span class="absolute top-[-20px] left-1/2 -translate-x-1/2 text-[10px] font-bold text-white">CTR</span>
+<span class="absolute top-[15px] right-[-20px] text-[10px] font-bold text-white">CPC</span>
+<span class="absolute bottom-[15px] right-[-20px] text-[10px] font-bold text-white">CVR</span>
+<span class="absolute bottom-[-20px] left-1/2 -translate-x-1/2 text-[10px] font-bold text-white">CPA</span>
+<span class="absolute bottom-[15px] left-[-20px] text-[10px] font-bold text-white">ROAS</span>
+<span class="absolute top-[15px] left-[-20px] text-[10px] font-bold text-white">ACoS</span>
+</div>
+</div>
+<div class="p-4 bg-[#2D3748]/20 flex justify-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-3 h-1 bg-[#FFE600] rounded-full"></div>
+<span class="text-[10px] text-[#94A3B8] font-bold uppercase">Sua Performance</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-0.5 border-t-2 border-dashed border-[#3483FA]"></div>
+<span class="text-[10px] text-[#94A3B8] font-bold uppercase">Benchmark Setor</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FLOATING ACTION BUTTON (Contextual Context) -->
+<button class="fixed bottom-8 right-8 bg-[#FFE600] text-[#0B111E] p-4 rounded-xl shadow-[0_8px_30px_rgba(255,230,0,0.3)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 font-bold">
+<span class="material-symbols-outlined">rocket_launch</span>
+        Otimizar Campanha
+    </button>
+</body></html>
