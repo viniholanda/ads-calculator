@@ -1,0 +1,106 @@
+/* ================================================================
+   MERCADO ADS PRO — Design System Variables
+   Extracted from Stitch project: Mercado Ads Analytics Dashboard
+   ================================================================ */
+
+:root {
+  /* ── Background Hierarchy ── */
+  --bg-deep:        #080D17;
+  --bg-base:        #0B111E;
+  --bg-surface:     #131B2E;
+  --bg-card:        #1A2233;
+  --bg-card-hover:  #1F2940;
+  --bg-elevated:    #243044;
+  --bg-sunken:      #0B111E;
+
+  /* ── Border Tonal ── */
+  --border-tonal:   #2D3748;
+  --border-subtle:  #1E293B;
+  --border-active:  #3483FA;
+
+  /* ── Primary — Mercado Livre Yellow ── */
+  --primary:        #FFE600;
+  --primary-dim:    #DEC800;
+  --primary-on:     #373100;
+  --primary-glow:   rgba(255, 230, 0, 0.15);
+  --primary-glow-strong: rgba(255, 230, 0, 0.30);
+
+  /* ── Secondary — ML Blue ── */
+  --secondary:      #3483FA;
+  --secondary-dim:  #ADC6FF;
+  --secondary-on:   #002E68;
+  --secondary-glow: rgba(52, 131, 250, 0.15);
+
+  /* ── Text ── */
+  --text-primary:   #FFFFFF;
+  --text-secondary: #E8E2CF;
+  --text-muted:     #94A3B8;
+  --text-dim:       #64748B;
+
+  /* ── Semantic Colors ── */
+  --success:        #34D399;
+  --success-bg:     rgba(52, 211, 153, 0.12);
+  --success-border: rgba(52, 211, 153, 0.25);
+
+  --warning:        #FBBF24;
+  --warning-bg:     rgba(251, 191, 36, 0.12);
+  --warning-border: rgba(251, 191, 36, 0.25);
+
+  --error:          #FF8A80;
+  --error-bg:       rgba(255, 138, 128, 0.12);
+  --error-border:   rgba(255, 138, 128, 0.25);
+
+  --info:           #60A5FA;
+  --info-bg:        rgba(96, 165, 250, 0.12);
+  --info-border:    rgba(96, 165, 250, 0.25);
+
+  /* ── Badge Colors ── */
+  --badge-great:    #34D399;
+  --badge-great-bg: rgba(52, 211, 153, 0.15);
+  --badge-good:     #4ADE80;
+  --badge-good-bg:  rgba(74, 222, 128, 0.15);
+  --badge-weak:     #FBBF24;
+  --badge-weak-bg:  rgba(251, 191, 36, 0.15);
+  --badge-bad:      #FF8A80;
+  --badge-bad-bg:   rgba(255, 138, 128, 0.15);
+
+  /* ── Spacing ── */
+  --space-xs:     4px;
+  --space-sm:     8px;
+  --space-md:     12px;
+  --space-base:   16px;
+  --space-lg:     24px;
+  --space-xl:     32px;
+  --space-2xl:    48px;
+  --space-3xl:    64px;
+
+  /* ── Typography ── */
+  --font-display: 'Manrope', sans-serif;
+  --font-body:    'Manrope', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+  --font-kpi:     'Inter', sans-serif;
+
+  /* ── Border Radius ── */
+  --radius-sm:    6px;
+  --radius:       8px;
+  --radius-lg:    12px;
+  --radius-xl:    16px;
+  --radius-full:  9999px;
+
+  /* ── Shadows ── */
+  --shadow-card:    0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-sunken:  inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow-primary: 0 0 20px rgba(255, 230, 0, 0.15);
+  --shadow-glow-blue: 0 0 20px rgba(52, 131, 250, 0.15);
+
+  /* ── Transitions ── */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Glassmorphism ── */
+  --glass-bg:     rgba(26, 34, 51, 0.65);
+  --glass-blur:   blur(16px);
+  --glass-border: rgba(255, 255, 255, 0.06);
+}
