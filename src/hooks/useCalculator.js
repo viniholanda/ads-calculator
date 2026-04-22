@@ -1,6 +1,6 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { compute, hasData, classify, buildAllBench, defaultThresholds } from '../utils/calculations';
-import { loadThresholds, saveThresholds } from '../utils/storage';
+import { loadThresholds, saveThresholds, loadCalcInputs, saveCalcInputs } from '../utils/storage';
 
 const INITIAL_INPUTS = {
   margin: '',
@@ -23,7 +23,15 @@ const EXAMPLE_INPUTS = {
 };
 
 export function useCalculator(activeClientId) {
-  const [inputs, setInputs] = useState(INITIAL_INPUTS);
+  const [inputs, setInputs] = useState(() => loadCalcInputs(activeClientId) || INITIAL_INPUTS);
+
+  useEffect(() => {
+    setInputs(loadCalcInputs(activeClientId) || INITIAL_INPUTS);
+  }, [activeClientId]);
+
+  useEffect(() => {
+    saveCalcInputs(inputs, activeClientId);
+  }, [inputs, activeClientId]);
 
   const thresholds = useMemo(() => {
     return loadThresholds(activeClientId, defaultThresholds);

@@ -74,6 +74,40 @@ export function saveThresholds(thresholds, clientId) {
   localStorage.setItem(benchKey(clientId), JSON.stringify(thresholds));
 }
 
+// ── Calculator Inputs ──
+export function calcInputsKey(clientId) {
+  return `ml_ads_calc_inputs_${clientId || getActiveClientId()}`;
+}
+
+export function loadCalcInputs(clientId) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(calcInputsKey(clientId)));
+    if (saved && typeof saved === 'object') return saved;
+  } catch {}
+  return null;
+}
+
+export function saveCalcInputs(inputs, clientId) {
+  localStorage.setItem(calcInputsKey(clientId), JSON.stringify(inputs));
+}
+
+// ── Simulator Params ──
+export function simParamsKey(clientId) {
+  return `ml_ads_sim_params_${clientId || getActiveClientId()}`;
+}
+
+export function loadSimParams(clientId) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(simParamsKey(clientId)));
+    if (saved && typeof saved === 'object') return saved;
+  } catch {}
+  return null;
+}
+
+export function saveSimParams(params, clientId) {
+  localStorage.setItem(simParamsKey(clientId), JSON.stringify(params));
+}
+
 // ── Theme ──
 export function loadTheme() {
   return localStorage.getItem('ml_ads_theme') || 'dark';

@@ -45,6 +45,8 @@ export function useClients() {
     saveClients(list);
     localStorage.removeItem(`ml_ads_scenarios_${id}`);
     localStorage.removeItem(`ml_ads_benchmarks_${id}`);
+    localStorage.removeItem(`ml_ads_sim_params_${id}`);
+    localStorage.removeItem(`ml_ads_calc_inputs_${id}`);
     if (getActiveClientId() === id) {
       setActiveClientId(list[0].id);
       setActiveId(list[0].id);

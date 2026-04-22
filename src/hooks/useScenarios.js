@@ -10,19 +10,28 @@ export function useScenarios(activeClientId) {
     setScenarios(loadScenarios(activeClientId));
   }, [activeClientId]);
 
-  const save = useCallback((name, input) => {
+  const save = useCallback((name, input, adjustments = '') => {
     const r = compute(input);
     const list = loadScenarios(activeClientId);
-    list.push({ name, input, r, date: new Date().toISOString() });
+    list.push({ name, input, r, adjustments, date: new Date().toISOString() });
     saveScenarios(list, activeClientId);
     refresh();
     return true;
   }, [activeClientId, refresh]);
 
-  const update = useCallback((index, name, input) => {
+  const update = useCallback((index, name, input, adjustments = '') => {
     const r = compute(input);
     const list = loadScenarios(activeClientId);
-    list[index] = { name, input, r, date: new Date().toISOString() };
+    list[index] = { name, input, r, adjustments, date: new Date().toISOString() };
+    saveScenarios(list, activeClientId);
+    refresh();
+    return true;
+  }, [activeClientId, refresh]);
+
+  const updateAdjustments = useCallback((index, adjustments) => {
+    const list = loadScenarios(activeClientId);
+    if (!list[index]) return false;
+    list[index] = { ...list[index], adjustments };
     saveScenarios(list, activeClientId);
     refresh();
     return true;
@@ -41,6 +50,7 @@ export function useScenarios(activeClientId) {
     setScenarioName,
     save,
     update,
+    updateAdjustments,
     remove,
     refresh
   };

@@ -24,11 +24,11 @@ export default function App() {
   const clientsHook = useClients();
   const calcHook = useCalculator(clientsHook.activeId);
   const scenariosHook = useScenarios(clientsHook.activeId);
-  const simHook = useSimulator(calcHook.ok ? calcHook.results : null);
+  const simHook = useSimulator(calcHook.ok ? calcHook.results : null, clientsHook.activeId);
 
-  const handleSaveScenario = useCallback((name) => {
+  const handleSaveScenario = useCallback((name, adjustments = '') => {
     if (!name.trim()) return false;
-    return scenariosHook.save(name, calcHook.numericInputs);
+    return scenariosHook.save(name, calcHook.numericInputs, adjustments);
   }, [scenariosHook, calcHook.numericInputs]);
 
   const renderView = () => {

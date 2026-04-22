@@ -139,6 +139,24 @@ export default function CompararView({ scenarios, results: currentR, ok: current
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td style={{ fontWeight: 600, fontSize: 12, color: 'var(--text-muted)', verticalAlign: 'top' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 14, verticalAlign: 'middle', marginRight: 4 }}>tune</span>
+                Ajustes
+              </td>
+              {computedScenarios.map((s, i) => (
+                <td key={i} style={{
+                  fontSize: 12,
+                  color: 'var(--text-secondary)',
+                  whiteSpace: 'pre-wrap',
+                  fontStyle: s.adjustments ? 'normal' : 'italic',
+                  verticalAlign: 'top',
+                  maxWidth: 260
+                }}>
+                  {s.adjustments || '—'}
+                </td>
+              ))}
+            </tr>
             {[
               { label: 'Impressões', key: 'impressions', fmt: v => fmtNum(v), src: 'data' },
               { label: 'Cliques', key: 'clicks', fmt: v => fmtNum(v), src: 'data' },

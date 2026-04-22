@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { computeSimulation } from '../utils/calculations';
+import { loadSimParams, saveSimParams } from '../utils/storage';
 
 const INITIAL_SIM = {
   ctr: 1.5,
@@ -10,8 +11,16 @@ const INITIAL_SIM = {
   impressions: 50000
 };
 
-export function useSimulator(baseResults) {
-  const [params, setParams] = useState(INITIAL_SIM);
+export function useSimulator(baseResults, activeClientId) {
+  const [params, setParams] = useState(() => loadSimParams(activeClientId) || INITIAL_SIM);
+
+  useEffect(() => {
+    setParams(loadSimParams(activeClientId) || INITIAL_SIM);
+  }, [activeClientId]);
+
+  useEffect(() => {
+    saveSimParams(params, activeClientId);
+  }, [params, activeClientId]);
 
   const sim = useMemo(() => computeSimulation(params), [params]);
 

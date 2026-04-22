@@ -21,6 +21,7 @@ const INPUT_FIELDS = [
 export default function CalculadoraView({ calc, scenarios, onSave }) {
   const { inputs, setField, results: r, ok, benchmarks: b, loadExample, resetInputs } = calc;
   const [saveName, setSaveName] = useState('');
+  const [saveAdjustments, setSaveAdjustments] = useState('');
   const [showSaved, setShowSaved] = useState(false);
 
   const bCpa = useMemo(() => {
@@ -47,8 +48,9 @@ export default function CalculadoraView({ calc, scenarios, onSave }) {
 
   const handleSave = () => {
     if (!saveName.trim()) return;
-    onSave(saveName.trim());
+    onSave(saveName.trim(), saveAdjustments.trim());
     setSaveName('');
+    setSaveAdjustments('');
   };
 
   // Doughnut chart data
@@ -202,7 +204,7 @@ export default function CalculadoraView({ calc, scenarios, onSave }) {
                   Salvar Cenário
                 </span>
               </div>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: 'var(--space-base)' }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: 'var(--space-sm)' }}>
                 <input
                   type="text"
                   className="sunken-input"
@@ -213,6 +215,14 @@ export default function CalculadoraView({ calc, scenarios, onSave }) {
                 />
                 <button className="btn btn-primary" onClick={handleSave}>Salvar</button>
               </div>
+              <textarea
+                className="sunken-input"
+                placeholder="Ajustes feitos na campanha (ex: aumentei lance em 20%, pausei SKUs ruins, troquei criativo...)"
+                value={saveAdjustments}
+                onChange={e => setSaveAdjustments(e.target.value)}
+                rows={3}
+                style={{ width: '100%', resize: 'vertical', marginBottom: 'var(--space-base)', fontFamily: 'inherit' }}
+              />
 
               {/* Saved List */}
               <button
@@ -244,11 +254,17 @@ export default function CalculadoraView({ calc, scenarios, onSave }) {
                         borderRadius: 'var(--radius)',
                         border: '1px solid var(--border-subtle)'
                       }}>
-                        <div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{s.name}</div>
                           <div style={{ fontSize: 11, color: 'var(--text-dim)' }}>
                             ROAS {fmtNum(s.r?.roas || 0, 2)}x · Lucro {fmtBRL(s.r?.lucroLiquido || 0)}
                           </div>
+                          {s.adjustments && (
+                            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 4, fontStyle: 'italic', whiteSpace: 'pre-wrap' }}>
+                              <span className="material-symbols-outlined" style={{ fontSize: 12, verticalAlign: 'middle', marginRight: 4 }}>tune</span>
+                              {s.adjustments}
+                            </div>
+                          )}
                         </div>
                         <div style={{ display: 'flex', gap: '4px' }}>
                           <button className="btn btn-ghost" style={{ padding: '4px 8px', fontSize: 11 }}
