@@ -1,38 +1,96 @@
 import { useState, useRef, useEffect } from 'react';
 
-function ManageModal({ clients, onClose }) {
-  const [editingId, setEditingId] = useState(null);
-  const [editName, setEditName] = useState('');
-  const editRef = useRef(null);
+const FIELD_STYLE = {
+  width: '100%',
+  background: 'var(--bg-sunken)',
+  border: '1px solid var(--border-tonal)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--text-primary)',
+  fontSize: 13,
+  padding: '7px 10px',
+  outline: 'none',
+  fontFamily: 'inherit',
+  boxSizing: 'border-box',
+};
 
-  useEffect(() => {
-    if (editingId && editRef.current) editRef.current.focus();
-  }, [editingId]);
+function MentoradoForm({ initial = {}, onSave, onCancel, saving }) {
+  const [form, setForm] = useState({ name: '', email: '', storeUrl: '', niche: '', notes: '', ...initial });
+  const nameRef = useRef(null);
 
-  const startEdit = (c) => {
-    setEditingId(c.id);
-    setEditName(c.name);
-  };
+  useEffect(() => { nameRef.current?.focus(); }, []);
 
-  const confirmEdit = () => {
-    const name = editName.trim();
-    if (name && editingId) clients.renameClient(editingId, name);
-    setEditingId(null);
-    setEditName('');
-  };
+  const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
-  const handleEditKey = (e) => {
-    if (e.key === 'Enter') confirmEdit();
-    if (e.key === 'Escape') { setEditingId(null); setEditName(''); }
-  };
-
-  const handleDelete = (id) => {
-    clients.deleteClient(id);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.name.trim()) return;
+    onSave(form);
   };
 
   return (
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div>
+        <label style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Nome *
+        </label>
+        <input ref={nameRef} required autoComplete="off" style={FIELD_STYLE} value={form.name} onChange={e => set('name', e.target.value)} placeholder="Ex: João Silva" />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div>
+          <label style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            E-mail
+          </label>
+          <input type="email" autoComplete="off" style={FIELD_STYLE} value={form.email} onChange={e => set('email', e.target.value)} placeholder="joao@email.com" />
+        </div>
+        <div>
+          <label style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Nicho
+          </label>
+          <input autoComplete="off" style={FIELD_STYLE} value={form.niche} onChange={e => set('niche', e.target.value)} placeholder="Ex: Pet Shop, Moda, etc." />
+        </div>
+      </div>
+      <div>
+        <label style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          URL da Loja / Anúncio
+        </label>
+        <input autoComplete="off" style={FIELD_STYLE} value={form.storeUrl} onChange={e => set('storeUrl', e.target.value)} placeholder="https://..." />
+      </div>
+      <div>
+        <label style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Anotações
+        </label>
+        <textarea rows={3} style={{ ...FIELD_STYLE, resize: 'vertical' }} value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Observações sobre o mentorado..." />
+      </div>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 4 }}>
+        <button type="button" className="btn btn-ghost" onClick={onCancel} disabled={saving}>Cancelar</button>
+        <button type="submit" className="btn btn-primary" disabled={saving || !form.name.trim()}>
+          {saving ? 'Salvando...' : 'Salvar'}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function ManageModal({ clients, onClose }) {
+  const [editingId, setEditingId] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  const startEdit = (c) => setEditingId(c.id);
+
+  const confirmEdit = async (id, form) => {
+    setSaving(true);
+    await clients.updateClient(id, form);
+    setSaving(false);
+    setEditingId(null);
+  };
+
+  const handleDelete = (id) => clients.deleteClient(id);
+
+  const editingClient = editingId ? clients.clients.find(c => c.id === editingId) : null;
+
+  return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal-box" style={{ maxWidth: 420 }}>
+      <div className="modal-box" style={{ maxWidth: 480 }}>
         <div className="modal-header">
           <span className="modal-title" style={{ fontSize: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--primary)' }}>manage_accounts</span>
@@ -43,62 +101,53 @@ function ManageModal({ clients, onClose }) {
           </button>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {clients.clients.map((c) => (
-            <div
-              key={c.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '10px 12px',
-                borderRadius: 'var(--radius)',
-                border: '1px solid var(--border-tonal)',
-                background: c.id === clients.activeId ? 'var(--bg-elevated)' : 'var(--bg-surface)',
-              }}
-            >
-              {editingId === c.id ? (
-                <>
-                  <input
-                    ref={editRef}
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    onKeyDown={handleEditKey}
-                    autoComplete="off"
-                    style={{
-                      flex: 1,
-                      background: 'var(--bg-sunken)',
-                      border: '1px solid var(--border-active)',
-                      borderRadius: 'var(--radius-sm)',
-                      color: 'var(--text-primary)',
-                      fontSize: 13,
-                      padding: '4px 8px',
-                      outline: 'none',
-                    }}
-                  />
-                  <button className="btn btn-ghost" style={{ padding: '4px 8px' }} onClick={confirmEdit}>
-                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>check</span>
-                  </button>
-                  <button className="btn btn-ghost" style={{ padding: '4px 8px' }} onClick={() => { setEditingId(null); setEditName(''); }}>
-                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>close</span>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <span style={{ flex: 1, fontSize: 14, color: 'var(--text-primary)', fontWeight: c.id === clients.activeId ? 600 : 400 }}>
+        {editingClient ? (
+          <>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 16 }}>
+              Editando: <strong style={{ color: 'var(--text-primary)' }}>{editingClient.name}</strong>
+            </p>
+            <MentoradoForm
+              initial={editingClient}
+              saving={saving}
+              onSave={(form) => confirmEdit(editingClient.id, form)}
+              onCancel={() => setEditingId(null)}
+            />
+          </>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {clients.clients.map((c) => (
+              <div
+                key={c.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 8,
+                  padding: '10px 12px',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border-tonal)',
+                  background: c.id === clients.activeId ? 'var(--bg-elevated)' : 'var(--bg-surface)',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 14, color: 'var(--text-primary)', fontWeight: c.id === clients.activeId ? 700 : 400 }}>
                     {c.name}
                     {c.id === clients.activeId && (
                       <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                         ativo
                       </span>
                     )}
-                  </span>
-                  <button
-                    className="btn btn-ghost"
-                    style={{ padding: '4px 8px' }}
-                    title="Renomear"
-                    onClick={() => startEdit(c)}
-                  >
+                  </div>
+                  {(c.email || c.niche) && (
+                    <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 2 }}>
+                      {[c.email, c.niche].filter(Boolean).join(' · ')}
+                    </div>
+                  )}
+                  {c.notes && (
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4, fontStyle: 'italic' }}>{c.notes}</div>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+                  <button className="btn btn-ghost" style={{ padding: '4px 8px' }} title="Editar" onClick={() => startEdit(c)}>
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>edit</span>
                   </button>
                   <button
@@ -110,11 +159,39 @@ function ManageModal({ clients, onClose }) {
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete</span>
                   </button>
-                </>
-              )}
-            </div>
-          ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function AddModal({ clients, onClose }) {
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async (form) => {
+    setSaving(true);
+    await clients.addClient(form.name, { email: form.email, storeUrl: form.storeUrl, niche: form.niche, notes: form.notes });
+    setSaving(false);
+    onClose();
+  };
+
+  return (
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="modal-box" style={{ maxWidth: 480 }}>
+        <div className="modal-header">
+          <span className="modal-title" style={{ fontSize: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--primary)' }}>person_add</span>
+            Novo Mentorado
+          </span>
+          <button className="modal-close" onClick={onClose}>
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
+        <MentoradoForm saving={saving} onSave={handleSave} onCancel={onClose} />
       </div>
     </div>
   );
@@ -122,25 +199,7 @@ function ManageModal({ clients, onClose }) {
 
 export default function Header({ clients, activeViewLabel, onMenuToggle }) {
   const [adding, setAdding] = useState(false);
-  const [newName, setNewName] = useState('');
   const [managing, setManaging] = useState(false);
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    if (adding && inputRef.current) inputRef.current.focus();
-  }, [adding]);
-
-  const handleAdd = () => {
-    const name = newName.trim();
-    if (name) clients.addClient(name);
-    setAdding(false);
-    setNewName('');
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleAdd();
-    if (e.key === 'Escape') { setAdding(false); setNewName(''); }
-  };
 
   return (
     <>
@@ -152,25 +211,8 @@ export default function Header({ clients, activeViewLabel, onMenuToggle }) {
           <h1 className="header-title">{activeViewLabel}</h1>
         </div>
         <div className="header-right">
-          {adding ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <input
-                ref={inputRef}
-                className="client-select"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                onKeyDown={handleKeyDown}
-                autoComplete="off"
-                placeholder="Nome do mentorado"
-                style={{ minWidth: 160 }}
-              />
-              <button className="btn btn-ghost" style={{ padding: '6px 10px', fontSize: '12px' }} onClick={handleAdd}>
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>check</span>
-              </button>
-              <button className="btn btn-ghost" style={{ padding: '6px 10px', fontSize: '12px' }} onClick={() => { setAdding(false); setNewName(''); }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>close</span>
-              </button>
-            </div>
+          {clients.loading ? (
+            <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>Carregando...</span>
           ) : (
             <>
               <select
@@ -203,9 +245,8 @@ export default function Header({ clients, activeViewLabel, onMenuToggle }) {
         </div>
       </header>
 
-      {managing && (
-        <ManageModal clients={clients} onClose={() => setManaging(false)} />
-      )}
+      {adding && <AddModal clients={clients} onClose={() => setAdding(false)} />}
+      {managing && <ManageModal clients={clients} onClose={() => setManaging(false)} />}
     </>
   );
 }
